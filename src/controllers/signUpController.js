@@ -1,6 +1,6 @@
 import {connection} from "../database/db.js";
 import { stripHtml } from "string-strip-html";
-import {userSchema} from "../schemas/signSchemas.js";
+import {userSchema} from "../models/signSchemas.js";
 import bcrypt from 'bcrypt';
 import moment from "moment";
 
@@ -20,7 +20,7 @@ async function signUp(req, res){
 
         if(validation.error){
             const errors = validation.error.details.map(detail => detail.message);
-            return res.status(422).send(errors);
+            return res.status(422).send("Digite um email valido!");
         }
 
         const duplicate = await connection.query(
@@ -29,7 +29,7 @@ async function signUp(req, res){
         );
         
         if(duplicate.rows.length > 0){
-            return res.sendStatus(409);
+            return res.status(409).send("Email já cadastrado!");
         }
 
         await connection.query(
