@@ -52,7 +52,7 @@ async function signIn(req, res){
         userId = userId.rows[0].id;
 
         await connection.query(
-            'INSERT INTO sessions ("userId", token, "createdAt") VALUES ($1, $2, $3)',
+            'INSERT INTO sessions ("userId", token, createdAt) VALUES ($1, $2, $3)',
             [userId, token, createdAt]
         );
         
